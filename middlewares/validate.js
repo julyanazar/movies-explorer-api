@@ -1,12 +1,14 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
 
+const { ERROR_MESSAGE_EMAIL, ERROR_MESSAGE_LINK } = require('../utils/constants');
+
 const validatorEmail = (value) => {
   const isValid = validator.isEmail(value);
   if (isValid) {
     return value;
   }
-  throw new Error('Неверный email');
+  throw new Error(ERROR_MESSAGE_EMAIL);
 };
 
 const validatorURL = (value) => {
@@ -14,7 +16,7 @@ const validatorURL = (value) => {
   if (isValid) {
     return value;
   }
-  throw new Error('Неверный URL');
+  throw new Error(ERROR_MESSAGE_LINK);
 };
 
 const validationSignIn = celebrate({

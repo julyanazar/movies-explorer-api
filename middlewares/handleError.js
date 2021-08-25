@@ -1,9 +1,11 @@
+const { ERROR_MESSAGE_500, ERROR_CODE_500 } = require('../utils/constants');
+
 const handleError = (err, req, res, next) => {
-  const { statusCode = 500, message } = err;
+  const { statusCode = ERROR_CODE_500, message } = err;
   res.status(statusCode)
     .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
+      message: statusCode === ERROR_CODE_500
+        ? ERROR_MESSAGE_500
         : message,
     });
   next();

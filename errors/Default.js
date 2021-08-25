@@ -1,7 +1,9 @@
+const { ERROR_CODE_500 } = require('../utils/constants');
+
 class Default extends Error {
   constructor(message) {
     super(message);
-    this.statusCode = 500;
+    this.statusCode = ERROR_CODE_500;
   }
 }
 

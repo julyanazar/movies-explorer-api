@@ -8,6 +8,7 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { notFoundPage } = require('./middlewares/notFoundPage');
 const { handleError } = require('./middlewares/handleError');
+const { MONGO } = require('./utils/config');
 
 const mainRouter = require('./routes/index');
 
@@ -45,7 +46,7 @@ app.use((req, res, next) => {
 app.use(helmet());
 
 // Подлключаемся к БД mestodb
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb', {
+mongoose.connect(MONGO, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
