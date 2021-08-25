@@ -3,11 +3,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const { errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { notFoundPage } = require('./middlewares/notFoundPage');
 const { handleError } = require('./middlewares/handleError');
+const { rateLimiter } = require('./utils/rateLimiter');
 const { MONGO } = require('./utils/config');
 
 const mainRouter = require('./routes/index');
@@ -20,6 +22,7 @@ const allowedCors = [
   'http://localhost:3000',
 ];
 
+const limiter = rateLimit(rateLimiter);
 const app = express();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
@@ -56,6 +59,7 @@ mongoose.connect(MONGO, {
 app.use(express.json());
 
 app.use(requestLogger);
+app.use(limiter);
 
 app.use('/', mainRouter);
 app.get('*', notFoundPage);
