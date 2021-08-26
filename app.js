@@ -17,6 +17,8 @@ const mainRouter = require('./routes/index');
 const allowedCors = [
   'localhost:3000',
   'http://localhost:3000',
+  'localhost:3001',
+  'http://localhost:3001',
 ];
 
 const limiter = rateLimit(rateLimiter);

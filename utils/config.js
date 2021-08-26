@@ -8,7 +8,7 @@ const {
 } = process.env;
 
 const CURRENT_JWT_SECRET = NODE_ENV === 'production' && JWT_SECRET ? JWT_SECRET : 'dev-secret';
-const CURRENT_PORT = NODE_ENV === 'production' && PORT ? PORT : 3000;
+const CURRENT_PORT = NODE_ENV === 'production' && PORT ? PORT : 3001;
 const CURRENT_MONGO = NODE_ENV === 'production' && MONGO ? MONGO : 'mongodb://localhost:27017/bitfilmsdb';
 
 module.exports = {
