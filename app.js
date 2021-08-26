@@ -10,12 +10,9 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { notFoundPage } = require('./middlewares/notFoundPage');
 const { handleError } = require('./middlewares/handleError');
 const { rateLimiter } = require('./utils/rateLimiter');
-const { MONGO } = require('./utils/config');
+const { CURRENT_MONGO, CURRENT_PORT } = require('./utils/config');
 
 const mainRouter = require('./routes/index');
-
-// Слушаем 3000 порт
-const { PORT = 3000 } = process.env;
 
 const allowedCors = [
   'localhost:3000',
@@ -49,7 +46,7 @@ app.use((req, res, next) => {
 app.use(helmet());
 
 // Подлключаемся к БД mestodb
-mongoose.connect(MONGO, {
+mongoose.connect(CURRENT_MONGO, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -67,8 +64,6 @@ app.use(errorLogger);
 app.use(errors());
 app.use(handleError);
 
-app.listen(PORT, () => {
-  // Если всё работает, консоль покажет, какой порт приложение слушает
-  // eslint-disable-next-line no-console
-  console.log(`App listening on port ${PORT}`);
+app.listen(CURRENT_PORT, () => {
+  console.log(`App listening on port ${CURRENT_PORT}`);
 });

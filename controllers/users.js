@@ -12,7 +12,7 @@ const {
   ERROR_MESSAGE_AUTHORIZATION,
   ERROR_MESSAGE_CREATUSER,
 } = require('../utils/constants');
-const { JWT } = require('../utils/config');
+const { CURRENT_JWT_SECRET } = require('../utils/config');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -68,7 +68,7 @@ const login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : JWT, { expiresIn: '7d' });
+      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : CURRENT_JWT_SECRET, { expiresIn: '7d' });
 
       return res.send({ token });
     })
