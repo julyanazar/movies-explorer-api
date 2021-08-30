@@ -11,6 +11,7 @@ const {
   ERROR_MESSAGE_USERNOTFOUND,
   ERROR_MESSAGE_AUTHORIZATION,
   ERROR_MESSAGE_CREATUSER,
+  ERROR_MESSAGE_UPDATEUSER,
 } = require('../utils/constants');
 const { CURRENT_JWT_SECRET } = require('../utils/config');
 
@@ -36,6 +37,10 @@ const updateUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         throw new BadRequest(ERROR_MESSAGE_INVALID);
       }
+      if (err.name === 'MongoError' && err.code === 11000) {
+        throw new Conflict(ERROR_MESSAGE_UPDATEUSER);
+      }
+      throw err;
     })
     .catch(next);
 };
@@ -59,6 +64,7 @@ const createUser = (req, res, next) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         throw new Conflict(ERROR_MESSAGE_CREATUSER);
       }
+      throw err;
     })
     .catch(next);
 };

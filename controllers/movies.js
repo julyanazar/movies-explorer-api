@@ -77,6 +77,7 @@ const deleteMovie = (req, res, next) => {
           if (err.name === 'ValidationError' || err.name === 'CastError') {
             next(new BadRequest(ERROR_MESSAGE_INVALID));
           }
+          next();
         })
         .catch(next);
     })
