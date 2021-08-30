@@ -51,8 +51,9 @@ const createMovie = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequest(ERROR_MESSAGE_INVALID));
+      } else {
+        next(err);
       }
-      next(err);
     });
 };
 
@@ -76,8 +77,9 @@ const deleteMovie = (req, res, next) => {
         .catch((err) => {
           if (err.name === 'ValidationError' || err.name === 'CastError') {
             next(new BadRequest(ERROR_MESSAGE_INVALID));
+          } else {
+            next();
           }
-          next();
         })
         .catch(next);
     })

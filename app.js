@@ -23,6 +23,9 @@ const allowedCors = [
 
 const limiter = rateLimit(rateLimiter);
 const app = express();
+
+app.use(requestLogger);
+app.use(limiter);
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -47,7 +50,7 @@ app.use((req, res, next) => {
 
 app.use(helmet());
 
-// Подлключаемся к БД mestodb
+// Подлключаемся к БД
 mongoose.connect(CURRENT_MONGO, {
   useNewUrlParser: true,
   useCreateIndex: true,
@@ -56,9 +59,6 @@ mongoose.connect(CURRENT_MONGO, {
 });
 
 app.use(express.json());
-
-app.use(requestLogger);
-app.use(limiter);
 
 app.use('/', mainRouter);
 app.all('*', notFoundPage);
