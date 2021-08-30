@@ -61,7 +61,7 @@ app.use(requestLogger);
 app.use(limiter);
 
 app.use('/', mainRouter);
-app.get('*', notFoundPage);
+app.all('*', notFoundPage);
 app.use(errorLogger);
 app.use(errors());
 app.use(handleError);
