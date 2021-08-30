@@ -12,6 +12,7 @@ const {
   ERROR_MESSAGE_AUTHORIZATION,
   ERROR_MESSAGE_CREATUSER,
   ERROR_MESSAGE_UPDATEUSER,
+  ERROR_MESSAGE_SUCCESSCREATEUSER,
 } = require('../utils/constants');
 const { CURRENT_JWT_SECRET } = require('../utils/config');
 
@@ -57,7 +58,7 @@ const createUser = (req, res, next) => {
       name,
     }))
     .then(({ _id }) => res.status(200).send({
-      message: 'Пользователь успешно создан',
+      message: ERROR_MESSAGE_SUCCESSCREATEUSER,
       user: { _id, email, name },
     }))
     .catch((err) => {

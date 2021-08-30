@@ -17,6 +17,7 @@ const ERROR_MESSAGE_NOTFOUND = 'Запрашиваемый ресурс не н�
 const ERROR_MESSAGE_FILMNOTFOUND = 'Фильм с таким id не найден';
 const ERROR_MESSAGE_USERNOTFOUND = 'Пользователь с таким id не найден';
 const ERROR_MESSAGE_CREATUSER = 'Пользователь с таким email уже существует';
+const ERROR_MESSAGE_SUCCESSCREATEUSER = 'Пользователь успешно создан';
 const ERROR_MESSAGE_UPDATEUSER = 'Почтовый ящик пренадлежит другому пользователю';
 const ERROR_MESSAGE_LINK = 'Некорректный url';
 const ERROR_MESSAGE_EMAIL = 'Некорректный email';
@@ -43,4 +44,5 @@ module.exports = {
   ERROR_MESSAGE_LINK,
   ERROR_MESSAGE_EMAIL,
   ERROR_MESSAGE_UPDATEUSER,
+  ERROR_MESSAGE_SUCCESSCREATEUSER,
 };
