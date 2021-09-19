@@ -2,12 +2,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
-const BadRequest = require('../errors/BadRequest');
 const NotFound = require('../errors/NotFound');
 const Conflict = require('../errors/Conflict');
 const Auth = require('../errors/Auth');
 const {
-  ERROR_MESSAGE_INVALID,
   ERROR_MESSAGE_USERNOTFOUND,
   ERROR_MESSAGE_AUTHORIZATION,
   ERROR_MESSAGE_CREATUSER,
@@ -20,30 +18,29 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
-    .orFail()
-    .catch(() => {
+    .orFail(() => {
       throw new NotFound(ERROR_MESSAGE_USERNOTFOUND);
     })
-    .then((currentUser) => res.send({ currentUser }))
+    .then((currentUser) => res.send(currentUser))
     .catch(next);
 };
 
 const updateUser = (req, res, next) => {
   const { email, name } = req.body;
-  const userId = req.user._id;
 
-  User.findByIdAndUpdate(userId, { email, name }, { new: true })
-    .then((user) => res.send({ data: user }))
+  User.findByIdAndUpdate(
+    req.user._id,
+    { email, name },
+    { new: true, runValidators: true },
+  ).orFail(() => NotFound(ERROR_MESSAGE_USERNOTFOUND))
+    .then((user) => res.send(user))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        throw new BadRequest(ERROR_MESSAGE_INVALID);
+      if (err.code === 11000) {
+        next(new Conflict(ERROR_MESSAGE_UPDATEUSER));
+      } else {
+        next(err);
       }
-      if (err.name === 'MongoError' && err.code === 11000) {
-        throw new Conflict(ERROR_MESSAGE_UPDATEUSER);
-      }
-      throw err;
-    })
-    .catch(next);
+    });
 };
 
 const createUser = (req, res, next) => {
