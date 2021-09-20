@@ -19,6 +19,8 @@ const allowedCors = [
   'http://localhost:3000',
   'localhost:3001',
   'http://localhost:3001',
+  'http://movies-diploma.nomoredomains.monster',
+  'https://movies-diploma.nomoredomains.monster',
 ];
 
 const limiter = rateLimit(rateLimiter);
